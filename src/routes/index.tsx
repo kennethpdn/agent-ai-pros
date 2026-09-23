@@ -1,0 +1,781 @@
+import { createFileRoute, Link } from "@tanstack/react-router";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Reveal } from "@/components/Reveal";
+import { trackCtaClick } from "@/lib/track";
+import heroHorizon from "@/assets/hero-horizon.jpg.asset.json";
+import iconZapier from "@/assets/icon-zapier.png.asset.json";
+import iconZapierGrid from "@/assets/icon-zapier-new.png.asset.json";
+import iconN8n from "@/assets/icon-n8n.png.asset.json";
+import iconMake from "@/assets/icon-make.png.asset.json";
+import agentDemo from "@/assets/agent-ia-demo.mp4.asset.json";
+import kennethPortrait from "@/assets/kenneth-portrait.jpg.asset.json";
+
+const floatingIcons = [
+  {
+    src: iconZapier.url,
+    alt: "Zapier",
+    className: "left-[2%] top-[8%] w-10 sm:left-[4%] sm:top-[16%] sm:w-20 md:w-24",
+    delay: "0s",
+  },
+  {
+    src: iconMake.url,
+    alt: "Make",
+    className: "right-[2%] top-[6%] w-12 sm:right-[5%] sm:top-[12%] sm:w-24 md:w-28",
+    delay: "1.2s",
+  },
+  {
+    src: iconN8n.url,
+    alt: "n8n",
+    className: "right-[2%] bottom-[4%] w-10 sm:right-[8%] sm:bottom-[12%] sm:w-[4.5rem] md:w-22",
+    delay: "2.1s",
+  },
+  {
+    src: iconZapier.url,
+    alt: "",
+    className: "left-[2%] bottom-[6%] w-9 opacity-80 sm:left-[8%] sm:bottom-[14%] sm:w-16 md:w-20",
+    delay: "0.6s",
+  },
+];
+
+const CTA_LABEL = "Réserver un audit gratuit";
+const CTA_HREF = "/audit-gratuit";
+
+export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "Consultant IA & Conseil IA pour Agence Digitale | Audit Gratuit" },
+      {
+        name: "description",
+        content:
+          "Consultant IA freelance spécialisé conseil IA pour agences digitales en Europe. J'implémente des agents IA sur mesure (prospection, reporting, onboarding) pour agences web, Ads et copywriting. Réservez un audit gratuit de 45 min.",
+      },
+      {
+        property: "og:title",
+        content: "Consultant IA & Conseil IA pour Agence Digitale | Audit Gratuit",
+      },
+      {
+        property: "og:description",
+        content:
+          "Consultant IA freelance pour agences digitales européennes. Audit gratuit de 45 min pour identifier vos premiers agents sur mesure.",
+      },
+      { property: "og:url", content: "https://agent-ai-pros.lovable.app/" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+    links: [{ rel: "canonical", href: "https://agent-ai-pros.lovable.app/" }],
+  }),
+  component: Index,
+});
+
+function Cta({
+  small = false,
+  className = "",
+  location = "inconnu",
+}: {
+  small?: boolean;
+  className?: string;
+  location?: string;
+}) {
+  return (
+    <Link
+      to={CTA_HREF}
+      className={`cta-btn heart-beat ${small ? "cta-btn-sm" : ""} ${className}`}
+      onClick={() => trackCtaClick(location)}
+    >
+      {CTA_LABEL}
+      <i className="fa-solid fa-arrow-right" aria-hidden="true" />
+    </Link>
+
+  );
+}
+
+const problemes = [
+  {
+    icon: "fa-regular fa-clock",
+    title: "On reçoit des leads, mais on les traite à la main",
+    text: "Chaque demande entrante passe par quelqu'un qui doit lire, juger, et décider, pendant que le prospect attend.",
+  },
+  {
+    icon: "fa-regular fa-file-lines",
+    title: "On ne sait pas quels leads sont vraiment chauds",
+    text: "Sans scoring clair, tous les leads se ressemblent jusqu'à ce qu'on perde du temps sur les mauvais et rate les bons.",
+  },
+  {
+    icon: "fa-regular fa-user",
+    title: "Le CRM est à jour quand quelqu'un y pense",
+    text: "Les infos du lead restent dans une boîte mail ou un carnet, jamais vraiment centralisées ni exploitables.",
+  },
+];
+
+const solutions = [
+  {
+    icon: "fa-solid fa-magnifying-glass-chart",
+    title: "Capture & enrichissement",
+    text: "Chaque lead entrant (formulaire, WhatsApp, pub) est capté automatiquement et enrichi avec les infos utiles pour le juger : secteur, taille, contexte, avant même qu'un humain n'y touche.",
+  },
+  {
+    icon: "fa-solid fa-chart-line",
+    title: "Scoring intelligent",
+    text: "L'agent évalue chaque lead selon vos propres critères et lui donne un score. Vous ne recevez que les leads qui méritent réellement votre temps.",
+  },
+  {
+    icon: "fa-solid fa-arrow-right-arrow-left",
+    title: "Routage & CRM sync",
+    text: "Lead chaud : alerte immédiate à l'équipe. Lead tiède : nurturing automatique. Tout est synchronisé dans votre CRM, sans double saisie.",
+  },
+];
+
+const tools = [
+  {
+    name: "n8n",
+    text: "L'orchestrateur qui connecte vos outils entre eux, sans dépendre d'une API tierce fragile.",
+    image: iconN8n.url,
+  },
+  {
+    name: "Make",
+    text: "Pour les automatisations rapides à déployer et faciles à faire évoluer avec votre équipe.",
+    image: iconMake.url,
+  },
+  {
+    name: "Zapier",
+    text: "Pour connecter rapidement des apps entre elles quand la simplicité prime sur la personnalisation poussée.",
+    image: iconZapierGrid.url,
+  },
+  {
+    name: "Vos outils existants",
+    text: "CRM, formulaires, Ads, reporting. Je connecte l'agent à ce que vous utilisez déjà, pas l'inverse.",
+    icon: "fa-solid fa-plug",
+  },
+];
+
+const transformation = [
+  {
+    avant: ["Qualification des leads", " à la main, une par une"],
+    apres: ["Leads scorés", " automatiquement, en quelques minutes"],
+  },
+  {
+    avant: ["Aucun scoring", ", tous les leads se valent jusqu'à preuve du contraire"],
+    apres: ["Seuls les leads qualifiés", " remontent à votre équipe"],
+  },
+  {
+    avant: ["CRM mis à jour", " quand quelqu'un y pense"],
+    apres: ["CRM synchronisé", " en continu, sans saisie manuelle"],
+  },
+  {
+    avant: ["Réponse au lead", " en heures, parfois en jours"],
+    apres: ["Première réponse", " envoyée en quelques minutes"],
+  },
+];
+
+const etapes = [
+  {
+    n: "01",
+    icon: "fa-solid fa-magnifying-glass",
+    title: "Audit gratuit",
+    text: "45 minutes pour cartographier vos tâches répétitives et identifier les deux ou trois plus rentables à automatiser.",
+  },
+  {
+    n: "02",
+    icon: "fa-solid fa-file-signature",
+    title: "Proposition sur mesure",
+    text: "Un périmètre clair, un délai, un prix fixe. Aucun abonnement imposé, aucun outil générique.",
+  },
+  {
+    n: "03",
+    icon: "fa-solid fa-screwdriver-wrench",
+    title: "Implémentation",
+    text: "Je construis l'agent dans votre stack existante et je le teste sur vos vrais dossiers avant mise en production.",
+  },
+  {
+    n: "04",
+    icon: "fa-solid fa-life-ring",
+    title: "Suivi",
+    text: "30 jours d'ajustements inclus, avec formation de votre équipe pour que l'agent reste entre vos mains.",
+  },
+];
+
+const cas = [
+  {
+    nom: "Big Chick",
+    icon: "fa-solid fa-drumstick-bite",
+    defi: "Plus de 200 demandes entrantes par mois traitées manuellement par deux account managers.",
+    solution:
+      "Agent de qualification connecté au formulaire et au CRM, avec scoring sur budget, secteur et urgence.",
+    impact: "12 heures récupérées par semaine et un taux de rendez-vous qualifiés multiplié par deux.",
+  },
+  {
+    nom: "RMS International Group",
+    icon: "fa-solid fa-globe",
+    defi: "Des leads entrants répartis sur plusieurs pays, qualifiés à la main avec un premier retour sous 48 h.",
+    solution:
+      "Agent de scoring multilingue connecté au CRM, qui enrichit chaque demande et la route vers le bon commercial.",
+    impact: "Première réponse passée de 48 h à quelques minutes, sans embauche supplémentaire.",
+  },
+];
+
+const garanties = [
+  {
+    icon: "fa-solid fa-key",
+    title: "Vous restez propriétaire du système",
+    text: "Le workflow, les prompts, les automatisations : tout reste sur votre compte (Make, n8n, ou autre). Aucune dépendance cachée.",
+  },
+  {
+    icon: "fa-solid fa-sliders",
+    title: "Ajustements inclus jusqu'à validation",
+    text: "L'agent n'est pas figé à la livraison. On ajuste ensemble jusqu'à ce qu'il tourne exactement comme prévu.",
+  },
+];
+
+const faq = [
+  {
+    q: "Comment un agent IA qualifie-t-il vraiment un lead entrant ?",
+    a: "L'agent capte chaque demande dès son arrivée (formulaire, WhatsApp, pub), l'enrichit automatiquement avec des informations utiles (secteur, taille, contexte), puis lui attribue un score selon vos propres critères. Votre équipe ne reçoit que les leads qui méritent son temps, avec toutes les infos déjà centralisées dans votre CRM.",
+  },
+  {
+    q: "Est-ce que ça remplace mon CRM ou ça se connecte dessus ?",
+    a: "Ça se connecte dessus. L'agent se branche sur votre CRM existant et le synchronise en continu : aucune migration, aucune double saisie, aucun changement d'habitude pour votre équipe. L'objectif est d'enlever du travail, pas de remplacer vos outils.",
+  },
+  {
+    q: "Qu'est-ce qu'un consultant IA et que fait-il concrètement ?",
+    a: "Un consultant IA accompagne une entreprise pour identifier les tâches répétitives qu'une intelligence artificielle peut prendre en charge, puis implémente des agents opérationnels. Dans mon cas, je travaille exclusivement avec des agences digitales : je cartographie vos process (prospection, reporting, onboarding), je choisis la bonne stack (Zapier, Make, n8n, API OpenAI), et je livre un agent testé sur vos vrais dossiers.",
+  },
+  {
+    q: "Quand est-ce qu'une agence a besoin de conseil en IA ?",
+    a: "Le conseil en IA devient utile quand votre équipe passe plus de temps à exécuter qu'à créer de la valeur : qualification de leads à la main, reporting refait chaque mois, onboarding dépendant d'une seule personne. Si vous repoussez des clients par manque de capacité, ou si vous hésitez à recruter par peur des charges, un consultant IA peut vous aider à gagner en capacité sans embauche.",
+  },
+  {
+    q: "Comment se déroule une mission de conseil IA avec vous ?",
+    a: "Ça commence par un audit gratuit de 45 minutes. On identifie ensemble les deux ou trois process les plus rentables à automatiser. Je vous envoie ensuite une proposition avec un périmètre fixe, un délai et un prix. Après validation, j'implémente l'agent dans votre stack existante, je le teste sur vos données, et je forme votre équipe. Vous avez 30 jours d'ajustements inclus.",
+  },
+  {
+    q: "Conseil IA en agence ou consultant IA freelance : quelle différence ?",
+    a: "Une agence de conseil en IA vend souvent un diagnostic stratégique généraliste et délègue ensuite l'exécution. En tant que consultant IA freelance, je suis à la fois le conseiller et le builder : je conçois l'agent et le construis moi-même. Pas de couche commerciale, pas de junior caché derrière le projet, un seul interlocuteur du diagnostic à la mise en production.",
+  },
+  {
+    q: "Faut-il changer nos outils existants ?",
+    a: "Non. Les agents se branchent sur ce que vous utilisez déjà : votre CRM, vos régies publicitaires, Slack, Notion, Google Workspace. L'objectif du conseil IA est d'enlever du travail, pas d'ajouter une migration coûteuse.",
+  },
+  {
+    q: "Quels résultats peut-on attendre d'un conseil IA ?",
+    a: "Les premiers résultats apparaissent dès le premier agent en production : heures récupérées chaque semaine, délais de reporting divisés, taux de leads qualifiés amélioré. Au-delà, le conseil IA vous donne une méthode pour industrialiser d'autres process sans repartir de zéro à chaque fois.",
+  },
+  {
+    q: "Quels sont les délais d'implémentation ?",
+    a: "Un premier agent utile est généralement en production entre deux et quatre semaines après la proposition, selon la complexité de vos outils et la disponibilité des accès.",
+  },
+  {
+    q: "Comment se passe la facturation ?",
+    a: "Prix fixe par projet, défini après l'audit gratuit. Pas d'abonnement obligatoire ni de facturation à l'heure : vous savez exactement ce que vous payez avant de commencer.",
+  },
+];
+
+function Index() {
+  return (
+    <div className="min-h-screen bg-background text-foreground">
+      <header className="sticky top-0 z-50 border-b border-foreground/10 bg-background/90 backdrop-blur">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3">
+          <span className="font-display text-2xl text-primary sm:text-3xl">KENNETH PADONOU</span>
+          <nav className="flex items-center gap-4">
+            <Link
+              to="/blog"
+              className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+            >
+              Articles
+            </Link>
+            <Link
+              to={CTA_HREF}
+              className="cta-btn cta-btn-sm"
+              onClick={() => trackCtaClick("header")}
+            >
+              <span className="hidden sm:inline">{CTA_LABEL}</span>
+              <span className="sm:hidden">Audit gratuit</span>
+            </Link>
+          </nav>
+        </div>
+      </header>
+
+      <main>
+        {/* Hero */}
+        <section className="relative flex min-h-[calc(100vh-3.5rem)] items-center overflow-hidden px-5 py-16 sm:py-20">
+          <img
+            src={heroHorizon.url}
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <div
+            className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/45 to-black/70"
+            aria-hidden="true"
+          />
+          <div
+            className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(0,0,0,0.35)_0%,_transparent_70%)]"
+            aria-hidden="true"
+          />
+          <div className="pointer-events-none absolute inset-0 z-0" aria-hidden="true">
+            {floatingIcons.map((icon, i) => (
+              <img
+                key={i}
+                src={icon.src}
+                alt=""
+                className={`floating-icon absolute ${icon.className}`}
+                style={{ animationDelay: icon.delay }}
+                loading="lazy"
+              />
+            ))}
+          </div>
+          <div className="relative z-10 mx-auto max-w-4xl text-center text-primary-foreground">
+            <Reveal>
+              <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary-foreground/25 bg-black/25 px-4 py-1.5 text-xs font-medium tracking-wide uppercase text-primary-foreground shadow-[0_2px_16px_rgba(0,0,0,0.45)] backdrop-blur">
+                <i className="fa-solid fa-bolt" aria-hidden="true" />
+                Qualification de leads, agents IA pour agences digitales
+              </p>
+              <h1
+                className="heading-hero"
+                style={{ textShadow: '0 3px 18px rgba(0,0,0,0.65)' }}
+              >
+                Chaque lead qui dort dans votre boîte mail est une vente qui part{" "}
+                <em className="text-emphasis">chez un concurrent</em>.
+              </h1>
+              <p
+                className="mx-auto mt-5 max-w-2xl text-subtitle text-primary-foreground"
+                style={{ textShadow: '0 2px 14px rgba(0,0,0,0.65)' }}
+              >
+                Un lead qui attend 24h de réponse a déjà commencé à regarder ailleurs.
+                J'implémente, pour les agences digitales, un agent IA qui capte, enrichit et
+                score chaque demande entrante en quelques minutes, pour que votre équipe
+                commerciale ne parle qu'aux leads qui méritent son temps.
+              </p>
+              <div className="mt-7">
+                <Cta className="cta-btn-light" location="hero" />
+              </div>
+              <p
+                className="mt-3 text-sm text-primary-foreground/90"
+                style={{ textShadow: '0 2px 10px rgba(0,0,0,0.55)' }}
+              >
+                45 minutes, sans engagement. Repartez avec un plan d'automatisation concret.
+              </p>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* Problème */}
+        <section className="bg-secondary-bg px-5 py-20">
+          <div className="mx-auto max-w-6xl">
+            <Reveal>
+              <h2 className="max-w-2xl heading-section">
+                Ce que j'entends dans{" "}
+                <em className="text-emphasis">presque chaque</em> agence digitale
+              </h2>
+            </Reveal>
+            <div className="mt-12 grid gap-6 md:grid-cols-3">
+              {problemes.map((p, i) => (
+                <Reveal
+                  key={p.title}
+                  delay={i * 100}
+                  as="article"
+                  animation={i % 2 === 0 ? "lightSpeedInRight" : "lightSpeedInLeft"}
+                >
+                  <div className="glass-card h-full rounded-xl p-7">
+                    <i
+                      className={`${p.icon} mb-5 block text-2xl text-primary`}
+                      aria-hidden="true"
+                    />
+                    <h3 className="heading-card">{p.title}</h3>
+                    <p className="mt-3 text-body text-muted-foreground">{p.text}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+            <Reveal>
+              <p className="mx-auto mt-12 max-w-2xl text-center text-body text-muted-foreground">
+                Ces problèmes ne ralentissent pas que votre process : ils vous coûtent des clients qui allaient déjà chez vous.
+              </p>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* Agitation */}
+        <section className="bg-secondary-bg px-5 py-20">
+          <div className="mx-auto max-w-3xl text-center">
+            <Reveal>
+              <h2 className="heading-section text-primary">Le coût de <em className="text-emphasis">l'inaction</em> se compte en clients perdus</h2>
+              <p className="mt-6 text-body text-muted-foreground">
+                Un lead qui attend une réponse ne reste pas en attente : il continue à chercher.
+                Pendant que votre équipe rattrape le retard, un concurrent plus réactif a déjà
+                décroché le rendez-vous.
+              </p>
+              <p className="mt-4 text-body text-muted-foreground">
+                Ce n'est pas une question de qualité de service. C'est une question de vitesse.
+                Et la vitesse, ça s'automatise.
+              </p>
+              <div className="mt-9">
+                <Cta location="agitation" />
+              </div>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* Solution */}
+        <section className="px-5 py-20">
+          <div className="mx-auto max-w-6xl">
+            <Reveal>
+              <h2 className="mx-auto max-w-3xl text-center heading-section">
+                Un agent construit autour d'un seul objectif :{" "}
+                <em className="text-emphasis">ne plus jamais perdre un lead</em>
+              </h2>
+            </Reveal>
+            <div className="mt-12 grid gap-6 md:grid-cols-3">
+              {solutions.map((s, i) => (
+                <Reveal key={s.title} delay={i * 100} as="article">
+                  <div className="h-full rounded-xl border border-border bg-card p-7 shadow-sm">
+                    <i
+                      className={`${s.icon} mb-5 block text-2xl text-primary`}
+                      aria-hidden="true"
+                    />
+                    <h3 className="heading-card">{s.title}</h3>
+                    <p className="mt-3 text-body text-muted-foreground">{s.text}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Outils éprouvés */}
+        <section className="bg-secondary-bg px-5 py-20">
+          <div className="mx-auto max-w-5xl">
+            <Reveal>
+              <h2 className="text-center heading-section">
+                Des outils <em className="text-emphasis">éprouvés</em> pour votre conseil IA
+              </h2>
+              <p className="mx-auto mt-5 max-w-2xl text-center text-body text-muted-foreground">
+                Chaque outil est choisi pour sa fiabilité en production chez les agences digitales, pas pour la tendance.
+              </p>
+            </Reveal>
+            <div className="mt-12 grid gap-6 md:grid-cols-2">
+              {tools.map((t, i) => (
+                <Reveal key={t.name} delay={i * 100} as="article">
+                  <div className="h-full rounded-2xl border border-border bg-card p-7 shadow-sm transition-shadow hover:shadow-md">
+                    <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
+                      {t.image ? (
+                        <img src={t.image} alt="" className="h-8 w-8 object-contain" />
+                      ) : (
+                        <i className={`${t.icon} text-xl text-primary`} aria-hidden="true" />
+                      )}
+                    </div>
+                    <h3 className="heading-card">{t.name}</h3>
+                    <p className="mt-3 text-body text-muted-foreground">{t.text}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+            <Reveal>
+              <p className="mx-auto mt-12 max-w-2xl text-center text-body italic text-muted-foreground">
+                Le bon outil n'est jamais choisi pour la tendance. Il est choisi parce qu'il tient en production, chez vous.
+              </p>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* Crédibilité Kenneth */}
+        <section className="px-5 py-20">
+          <div className="mx-auto max-w-5xl">
+            <div className="grid items-center gap-10 md:grid-cols-2 md:gap-14">
+              <Reveal animation="fadeInLeft">
+                <div className="relative mx-auto aspect-[4/5] w-full max-w-sm overflow-hidden rounded-2xl border border-border bg-card shadow-xl md:max-w-none">
+                  <img
+                    src={kennethPortrait.url}
+                    alt="Kenneth Padonou, consultant freelance spécialisé en agents IA pour agences digitales"
+                    className="h-full w-full object-cover"
+                    loading="lazy"
+                  />
+                  <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-foreground/10" />
+                </div>
+              </Reveal>
+              <Reveal animation="fadeInRight" delay={120}>
+                <div>
+                  <h2 className="heading-section">
+                    Je ne vends pas des agents IA. Je vends du{" "}
+                    <em className="text-emphasis">temps récupéré</em> et du CA débloqué.
+                  </h2>
+                  <div className="mt-6 space-y-4 text-body text-muted-foreground">
+                    <p>
+                      Je suis Kenneth, consultant IA freelance spécialisé dans la création d'agents IA pour les agences digitales.
+                    </p>
+                    <p>
+                      Mon approche part d'un constat simple : dans une agence, chaque heure passée sur une tâche répétitive (qualifier un lead, monter un reporting, relancer un onboarding) est une heure qui n'est pas vendue à un client, ou pas investie sur ce qui fait vraiment grandir l'agence.
+                    </p>
+                    <p>
+                      Je ne construis pas des automatisations pour le principe. Je pars de votre goulot d'étranglement, là où vous perdez du temps ou des opportunités, et je construis l'agent IA qui le résout, connecté à vos outils existants.
+                    </p>
+                    <p className="text-foreground">
+                      Résultat concret : des heures libérées pour vos équipes, des leads mieux qualifiés, un onboarding qui ne dépend plus d'une seule personne. Vous ne travaillez pas avec un prestataire technique de plus. Vous travaillez avec quelqu'un qui construit pour un seul objectif : que ça se voie sur votre capacité à facturer plus, sans embaucher plus.
+                    </p>
+                  </div>
+                </div>
+              </Reveal>
+            </div>
+          </div>
+        </section>
+
+
+        {/* Vidéo démo */}
+        <section className="bg-secondary-bg px-5 py-20">
+          <div className="mx-auto max-w-4xl text-center">
+            <Reveal>
+              <p className="mx-auto w-fit rounded-full border border-foreground/20 px-4 py-1 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                Voir un agent en action
+              </p>
+              <h2 className="mt-4 heading-section">
+                Un agent qui qualifie vos leads <em className="text-emphasis">pendant que vous dormez</em>
+              </h2>
+              <p className="mx-auto mt-5 max-w-2xl text-body text-muted-foreground">
+                Cette démo montre comment un agent capte une demande entrante, l'enrichit, la
+                score et la crée dans le CRM, sans intervention manuelle.
+              </p>
+            </Reveal>
+            <Reveal delay={120}>
+              <div className="mt-10 overflow-hidden rounded-2xl border border-foreground/10 bg-background shadow-2xl">
+                <video
+                  src={agentDemo.url}
+                  width={1280}
+                  height={720}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  controls
+                  preload="metadata"
+                  className="aspect-video w-full"
+                  aria-label="Démonstration d'un agent IA qualifiant un lead et le créant dans un CRM"
+                />
+              </div>
+            </Reveal>
+            <Reveal delay={200}>
+              <div className="mt-10">
+                <Cta location="video" />
+              </div>
+              <p className="mt-4 text-sm text-muted-foreground">
+                45 minutes, sans engagement. Repartez avec un plan d'automatisation concret.
+              </p>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* Transformation */}
+        <section className="bg-secondary-bg px-5 py-20">
+          <div className="mx-auto max-w-5xl">
+            <Reveal>
+              <h2 className="text-center heading-section">Avant / Après</h2>
+            </Reveal>
+            <div className="glass-card mt-10 overflow-hidden">
+              <div className="grid grid-cols-2 border-b border-foreground/10 bg-white/10">
+                <div className="px-5 py-3 heading-card font-display">Aujourd'hui</div>
+                <div className="border-l border-foreground/10 px-5 py-3 heading-card font-display">
+                  Avec un agent IA
+                </div>
+              </div>
+              {transformation.map((row, i) => (
+                <Reveal key={row.avant[0]} delay={i * 80}>
+                  <div className="grid grid-cols-2 border-t border-foreground/10 bg-white/5">
+                    <div className="px-5 py-5 text-body text-muted-foreground">
+                      <i
+                        className="fa-solid fa-xmark mr-2 text-muted-foreground/60"
+                        aria-hidden="true"
+                      />
+                      <strong className="font-semibold">{row.avant[0]}</strong>
+                      {row.avant[1]}
+                    </div>
+                    <div className="border-l border-foreground/10 px-5 py-5 text-body">
+                      <i className="fa-solid fa-check mr-2 text-primary" aria-hidden="true" />
+                      <strong className="font-semibold">{row.apres[0]}</strong>
+                      {row.apres[1]}
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Offre */}
+        <section className="px-5 py-20">
+          <div className="mx-auto max-w-6xl">
+            <Reveal>
+              <p className="mx-auto w-fit rounded-full border border-foreground/20 px-4 py-1 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                Ma démarche
+              </p>
+              <h2 className="mt-4 text-center heading-section">Comment on avance <em className="text-emphasis">ensemble</em>, consultant IA et agence digitale</h2>
+            </Reveal>
+            <ol className="steps-board mt-14 grid gap-10 sm:grid-cols-2 sm:gap-x-16 sm:gap-y-14">
+              {etapes.map((e, i) => (
+                <Reveal key={e.n} delay={i * 90} as="li">
+                  <div className={`step-card step-card-${i + 1}`}>
+                    <span className="step-card-pin" aria-hidden="true" />
+                    <div className="flex items-center gap-3">
+                      <span className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary-bg text-primary">
+                        <i className={`${e.icon} text-base`} aria-hidden="true" />
+                      </span>
+                      <span className="text-sm font-semibold text-muted-foreground">{e.n}</span>
+                    </div>
+                    <h3 className="mt-2 heading-card">{e.title}</h3>
+                    <p className="mt-2 text-body text-muted-foreground">{e.text}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </ol>
+            <Reveal>
+              <p className="mt-14 text-center text-body italic text-muted-foreground">
+                <i className="fa-solid fa-arrow-right-long mr-2" aria-hidden="true" />
+                Prêt à être livré !
+              </p>
+            </Reveal>
+
+            <Reveal>
+              <h3 className="mt-20 text-center heading-section">Cas concrets</h3>
+            </Reveal>
+            <div className="mt-8 grid gap-6 md:grid-cols-2">
+              {cas.map((c, i) => (
+                <Reveal key={c.nom} delay={i * 100} as="article">
+                  <div className="h-full rounded-xl border border-border bg-card p-7 shadow-sm">
+                    <div className="flex items-center gap-3">
+                      <span className="flex h-11 w-11 items-center justify-center rounded-full bg-secondary-bg text-primary">
+                        <i className={`${c.icon} text-lg`} aria-hidden="true" />
+                      </span>
+                      <h4 className="heading-section">{c.nom}</h4>
+                    </div>
+                    <dl className="mt-5 space-y-4 text-body">
+                      <div>
+                        <dt className="font-semibold">
+                          <i className="fa-solid fa-triangle-exclamation mr-2 text-muted-foreground" aria-hidden="true" />
+                          Défi
+                        </dt>
+                        <dd className="text-muted-foreground">{c.defi}</dd>
+                      </div>
+                      <div>
+                        <dt className="font-semibold">
+                          <i className="fa-solid fa-lightbulb mr-2 text-muted-foreground" aria-hidden="true" />
+                          Solution
+                        </dt>
+                        <dd className="text-muted-foreground">{c.solution}</dd>
+                      </div>
+                      <div>
+                        <dt className="font-semibold text-primary">
+                          <i className="fa-solid fa-arrow-trend-up mr-2" aria-hidden="true" />
+                          Impact
+                        </dt>
+                        <dd className="text-muted-foreground">{c.impact}</dd>
+                      </div>
+                    </dl>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+
+          </div>
+        </section>
+
+        {/* Garanties */}
+        <section className="bg-reassurance-bg px-5 py-20">
+          <div className="mx-auto max-w-6xl">
+            <Reveal>
+              <h2 className="text-center heading-section">Ce que je vous <em className="text-emphasis">garantis</em>, concrètement, en tant qu'agence digitale</h2>
+            </Reveal>
+            <div className="mt-12 grid gap-6 md:grid-cols-3">
+              {garanties.map((g, i) => (
+                <Reveal key={g.title} delay={i * 100} as="article">
+                  <div className="flex h-full flex-col rounded-xl border border-border bg-card p-7 shadow-sm">
+                    <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground">
+                      <i className={g.icon} aria-hidden="true" />
+                    </div>
+                    <h3 className="heading-card">{g.title}</h3>
+                    <p className="mt-3 text-body text-muted-foreground">{g.text}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* CTA final */}
+        <section className="bg-background px-5 py-16">
+          <div className="mx-auto max-w-3xl text-center">
+            <Reveal>
+              <p className="text-subtitle text-muted-foreground">
+                Prêt à ne plus jamais perdre un lead ?
+              </p>
+              <div className="mt-6">
+                <Cta location="offre" />
+              </div>
+              <p className="mt-4 text-sm text-muted-foreground">
+                45 minutes, sans engagement. Repartez avec un plan d'automatisation concret.
+              </p>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* FAQ */}
+        <section className="bg-secondary-bg px-5 py-20">
+          <div className="mx-auto max-w-3xl">
+            <Reveal>
+              <h2 className="text-center heading-section">Conseil IA & consultant IA</h2>
+            </Reveal>
+            <Reveal>
+              <p className="mx-auto mt-5 max-w-2xl text-center text-body text-muted-foreground">
+                Vous cherchez un conseil IA ou un consultant IA pour accompagner votre agence
+                digitale ? Je conçois et j'implémente des agents sur mesure pour les agences web,
+                Ads et copywriting en Europe, directement dans vos outils existants.
+              </p>
+            </Reveal>
+            <Reveal>
+              <Accordion type="single" collapsible className="mt-10">
+                {faq.map((f) => (
+                  <AccordionItem key={f.q} value={f.q} className="border-foreground/10">
+                    <AccordionTrigger className="text-left font-sans text-body font-medium normal-case tracking-normal">
+                      {f.q}
+                    </AccordionTrigger>
+                    <AccordionContent className="text-body text-muted-foreground">
+                      {f.a}
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </Reveal>
+            <Reveal>
+              <p className="mx-auto mt-12 max-w-2xl text-center text-body">
+                Vous ne signez pas avec une agence de plus : vous travaillez directement avec le
+                consultant IA qui construit vos agents. Pas de couche commerciale, pas de junior
+                sur votre dossier. Un interlocuteur unique, un périmètre clair, et des process qui
+                restent chez vous.
+              </p>
+              <div className="mt-9 text-center">
+                <Cta location="positionnement" />
+              </div>
+            </Reveal>
+          </div>
+        </section>
+      </main>
+
+      <footer className="bg-background px-5 py-14">
+        <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 text-center sm:flex-row sm:justify-between sm:text-left">
+          <div>
+            <p className="font-display text-3xl text-primary">KENNETH PADONOU</p>
+            <a
+              href="mailto:contact@agents-ia.eu"
+              className="mt-1 inline-flex items-center gap-2 text-sm text-muted-foreground underline underline-offset-4"
+            >
+              <i className="fa-regular fa-envelope" aria-hidden="true" />
+              contact@agents-ia.eu
+            </a>
+          </div>
+          <Cta location="footer" />
+        </div>
+      </footer>
+    </div>
+  );
+}

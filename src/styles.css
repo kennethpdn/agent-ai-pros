@@ -1,0 +1,459 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Design system — consultant IA freelance.
+ * Fond #FAF8F5, sections secondaires #F1ECEF, texte #211A24, texte secondaire #6F6672.
+ * CTA violet profond #462255, CTA hover #32183D.
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --font-display: "Satoshi", system-ui, sans-serif;
+  --font-sans: "Satoshi", system-ui, sans-serif;
+  --font-emphasis: "Instrument Serif", Georgia, serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-hover: var(--primary-hover);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-secondary-bg: var(--secondary-bg);
+  --color-light-blue: var(--light-blue);
+  --color-olive: var(--olive);
+  --color-olive-light: var(--olive-light);
+  --color-olive-dark: var(--olive-dark);
+  --color-cream: var(--cream);
+  --color-reassurance-bg: var(--reassurance-bg);
+}
+
+:root {
+  --radius: 0.5rem;
+
+  --background: #F8F6F8;
+  --secondary-bg: #EEEBF0;
+  --foreground: #221528;
+  --muted-foreground: #7A6284;
+
+  --card: #FFFFFF;
+  --card-foreground: #221528;
+  --popover: #FFFFFF;
+  --popover-foreground: #221528;
+
+  --primary: #381B44;
+  --primary-foreground: #FFFFFF;
+  --primary-hover: #873FA6;
+
+  --secondary: #EEEBF0;
+  --secondary-foreground: #221528;
+  --muted: #EEEBF0;
+  --accent: #EEEBF0;
+  --accent-foreground: #221528;
+
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: #FFFFFF;
+  --border: #E3DBE6;
+  --input: #E3DBE6;
+  --ring: #381B44;
+
+  /* Legacy aliases kept for compatibility */
+  --light-blue: #C7E0EB;
+  --olive: oklch(0.79 0.062 118.5);
+  --olive-light: oklch(0.845 0.055 116.5);
+  --olive-dark: oklch(0.655 0.06 118);
+  --cream: #F8F6F8;
+  --reassurance-bg: #EEEBF0;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    font-weight: 700;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 3px;
+  }
+}
+
+/* French-friendly type scale — shorter line-height and sizes adapted to longer copy */
+@utility heading-hero {
+  font-size: 1.875rem; /* mobile: 30px */
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  font-weight: 900;
+
+  @media (min-width: 640px) {
+    font-size: 2.75rem; /* sm+: 44px */
+  }
+
+  @media (min-width: 1024px) {
+    font-size: 3.25rem; /* lg+: 52px */
+  }
+}
+
+@utility heading-section {
+  font-size: 1.5rem; /* mobile: 24px */
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  font-weight: 700;
+
+  @media (min-width: 640px) {
+    font-size: 2rem; /* sm+: 32px */
+  }
+
+  @media (min-width: 1024px) {
+    font-size: 2.25rem; /* lg+: 36px */
+  }
+}
+
+@utility heading-card {
+  font-size: 1rem; /* mobile: 16px */
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  font-weight: 600;
+
+  @media (min-width: 640px) {
+    font-size: 1.125rem; /* sm+: 18px */
+  }
+
+  @media (min-width: 1024px) {
+    font-size: 1.25rem; /* lg+: 20px */
+  }
+}
+
+/* Emphasis serif italic — Tiempos alternative (Instrument Serif), key words in big headings only */
+@utility text-emphasis {
+  font-family: var(--font-emphasis);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+@utility text-body {
+  font-size: 0.9375rem; /* mobile: 15px */
+  line-height: 1.65;
+
+  @media (min-width: 640px) {
+    font-size: 1rem; /* sm+: 16px */
+  }
+}
+
+@utility text-subtitle {
+  font-size: 1rem; /* mobile: 16px */
+  line-height: 1.6;
+
+  @media (min-width: 640px) {
+    font-size: 1.125rem; /* sm+: 18px */
+  }
+}
+
+@utility cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  background-color: var(--color-primary);
+  color: var(--color-primary-foreground);
+  font-family: var(--font-sans);
+  font-weight: 500;
+  border-radius: 0.5rem;
+  padding: 0.9rem 1.6rem;
+  font-size: 1rem;
+  line-height: 1.2;
+  transition:
+    background-color 180ms ease,
+    transform 180ms ease;
+
+  &:hover {
+    background-color: var(--color-primary-hover);
+    transform: translateY(-1px);
+  }
+}
+
+@utility cta-btn-sm {
+  padding: 0.6rem 1.05rem;
+  font-size: 0.875rem;
+}
+
+@utility cta-btn-light {
+  background-color: var(--color-background);
+  color: var(--color-primary);
+
+  &:hover {
+    background-color: var(--color-secondary-bg);
+    transform: translateY(-1px);
+  }
+}
+
+@utility cta-btn-white {
+  background-color: #ffffff;
+  color: var(--color-primary);
+
+  &:hover {
+    background-color: #f5f3f0;
+    transform: translateY(-1px);
+  }
+}
+
+@utility floating-icon {
+  filter: drop-shadow(0 12px 28px rgba(0, 0, 0, 0.45));
+  animation: icon-float 7s ease-in-out infinite;
+}
+
+@keyframes icon-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-3deg);
+  }
+  50% {
+    transform: translateY(-14px) rotate(3deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .floating-icon {
+    animation: none;
+  }
+}
+
+@utility reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 700ms ease,
+    transform 700ms ease;
+
+  &[data-visible="true"] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@utility glass-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  padding: 24px;
+  transition:
+    border-color 220ms ease,
+    box-shadow 220ms ease,
+    transform 220ms ease;
+
+  &:hover {
+    border-color: rgba(255, 255, 255, 0.55);
+    box-shadow: 0 14px 44px 0 rgba(0, 0, 0, 0.18);
+    transform: translateY(-2px);
+  }
+}
+
+@utility light-speed-right {
+  opacity: 0;
+
+  &[data-visible="true"] {
+    animation: light-speed-in-right 0.9s ease-out forwards;
+  }
+}
+
+@utility light-speed-left {
+  opacity: 0;
+
+  &[data-visible="true"] {
+    animation: light-speed-in-left 0.9s ease-out forwards;
+  }
+}
+
+@utility fade-in-left {
+  opacity: 0;
+
+  &[data-visible="true"] {
+    animation: fade-in-left 0.8s ease-out forwards;
+  }
+}
+
+@utility fade-in-right {
+  opacity: 0;
+
+  &[data-visible="true"] {
+    animation: fade-in-right 0.8s ease-out forwards;
+  }
+}
+
+@keyframes light-speed-in-right {
+  from {
+    transform: translate3d(100%, 0, 0) skewX(-30deg);
+    opacity: 0;
+  }
+  60% {
+    transform: skewX(20deg);
+    opacity: 1;
+  }
+  80% {
+    transform: skewX(-5deg);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes light-speed-in-left {
+  from {
+    transform: translate3d(-100%, 0, 0) skewX(30deg);
+    opacity: 0;
+  }
+  60% {
+    transform: skewX(-20deg);
+    opacity: 1;
+  }
+  80% {
+    transform: skewX(5deg);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in-left {
+  from {
+    transform: translate3d(-60px, 0, 0);
+    opacity: 0;
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in-right {
+  from {
+    transform: translate3d(60px, 0, 0);
+    opacity: 0;
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+
+@utility heart-beat {
+  animation: heart-beat 1.6s ease-in-out infinite;
+}
+
+@keyframes heart-beat {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  14% {
+    transform: scale(1.08);
+  }
+  28% {
+    transform: scale(1);
+  }
+  42% {
+    transform: scale(1.08);
+  }
+  70% {
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .light-speed-right,
+  .light-speed-left,
+  .fade-in-left,
+  .fade-in-right,
+  .heart-beat {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    animation: none;
+  }
+}
+
+
+
+/* Steps board — tilted cards on dotted grid (reference style) */
+.steps-board {
+  background-image: radial-gradient(color-mix(in oklab, var(--foreground) 18%, transparent) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+.step-card {
+  position: relative;
+  background: #ffffff;
+  border: 1px solid color-mix(in oklab, var(--foreground) 10%, transparent);
+  border-radius: 16px;
+  padding: 24px 24px 28px;
+  box-shadow: 0 14px 30px -14px rgba(33, 26, 36, 0.25);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+.step-card:hover {
+  transform: rotate(0deg) translateY(-4px);
+  box-shadow: 0 22px 40px -16px rgba(33, 26, 36, 0.3);
+}
+.step-card-pin {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  width: 14px;
+  height: 14px;
+  margin-left: -7px;
+  border-radius: 9999px;
+  background: var(--primary);
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.9), 0 2px 6px rgba(33, 26, 36, 0.35);
+}
+@media (min-width: 640px) {
+  .step-card-1 { transform: rotate(-3deg); }
+  .step-card-2 { transform: rotate(2.5deg) translateY(24px); }
+  .step-card-3 { transform: rotate(2deg); }
+  .step-card-4 { transform: rotate(-2.5deg) translateY(24px); }
+  .step-card:hover { transform: rotate(0deg) translateY(-4px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .step-card { transition: none; }
+}
